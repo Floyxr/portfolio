@@ -26,6 +26,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
     
+    <!-- Importa Hammer.js per le gesture touch -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    
     <!-- Configura Tailwind per utilizzare Google Fonts e Dark Mode -->
     <script>
       tailwind.config = {
@@ -224,6 +227,16 @@
             background-size: cover;
             background-position: center;
         }
+
+        /* Stile per il focus degli elementi interattivi */
+        .hamburger:focus,
+        .close-modal:focus,
+        #back-to-top:focus,
+        #dark-mode-toggle:focus,
+        #back-arrow:focus {
+            outline: 2px solid #4B5563; /* Tailwind Gray-700 */
+            outline-offset: 2px;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-poppins scroll-smooth dark:bg-gray-900 dark:text-gray-100">
@@ -236,7 +249,7 @@
     </div>
 
     <!-- Dark Mode Toggle -->
-    <div id="dark-mode-toggle" class="flex items-center justify-center" aria-label="Toggle Dark Mode">
+    <div id="dark-mode-toggle" class="flex items-center justify-center" aria-label="Toggle Dark Mode" tabindex="0">
         <!-- Icone Font Awesome per Luna e Sole -->
         <i id="theme-icon" class="fas fa-moon text-2xl"></i>
     </div>
@@ -258,7 +271,7 @@
         </nav>
 
         <!-- Menu Hamburger (visibile su mobile) -->
-        <div class="md:hidden flex flex-col items-center justify-center space-y-1 cursor-pointer hamburger" id="hamburger" aria-label="Menu">
+        <div class="md:hidden flex flex-col items-center justify-center space-y-1 cursor-pointer hamburger" id="hamburger" aria-label="Menu" aria-controls="nav-links" aria-expanded="false" tabindex="0">
             <span class="block w-6 h-0.5 bg-white line1"></span>
             <span class="block w-6 h-0.5 bg-white line2"></span>
             <span class="block w-6 h-0.5 bg-white line3"></span>
@@ -268,7 +281,7 @@
     <!-- Mobile Nav Links (nascosti di default) -->
     <div class="fixed top-0 right-0 h-full w-2/3 bg-gray-900 text-white flex flex-col items-center justify-start pt-20 transform translate-x-full transition-transform duration-300 ease-in-out z-1000" id="nav-links">
         <!-- Freccia Indietro -->
-        <div id="back-arrow" aria-label="Torna indietro">
+        <div id="back-arrow" aria-label="Torna indietro" tabindex="0">
             <i class="fas fa-arrow-left"></i>
         </div>
         <a href="#home" class="mb-6 text-2xl hover:text-gray-300 transition">Home</a>
@@ -297,136 +310,280 @@
     <!-- Sezione Progetti -->
     <section id="projects" class="py-16 bg-white text-center">
         <h2 class="text-4xl font-semibold mb-8 tracking-wide">Progetti</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-8">
-            <!-- Progetto 1 -->
-            <div class="bg-gray-200 p-6 rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                <img src="images/accademia.png" alt="IlDitoNellOcchioAcademy" class="w-full h-48 object-cover rounded mb-4 cursor-pointer" onclick="openModal('modal-project1')">
-                <h3 class="text-2xl font-semibold mb-2">IlDitoNellOcchioAcademy</h3>
-                <p class="text-lg font-light">
-                    <strong>Introduzione:</strong><br>
-                    Il progetto "Il Dito nell'Occhio" si propone di offrire un'esperienza educativa unica nel campo delle arti visive, promuovendo la creatività e l'autoespressione tra i partecipanti. Situata a Ercolano, l'accademia si distingue per il suo approccio innovativo e il forte legame con la comunità locale.
-                    <br><br>
-                    <strong>Obiettivi:</strong><br>
-                    L'accademia mira a:
-                    <ul class="list-disc list-inside">
-                        <li>Fornire corsi di formazione di alta qualità in vari ambiti artistici, dalla fotografia alla pittura.</li>
-                        <li>Creare uno spazio inclusivo dove gli studenti possono sviluppare le proprie capacità e passioni artistiche.</li>
-                        <li>Collaborare con artisti locali e professionisti del settore per offrire workshop e eventi stimolanti.</li>
-                    </ul>
-                    <br>
-                    <strong>Sito Web:</strong><br>
-                    Il sito web di "Il Dito nell'Occhio" è stato progettato per riflettere l'identità unica dell'accademia. Le sue caratteristiche principali includono:
-                    <ul class="list-disc list-inside">
-                        <li>Design Elegante e Intuitivo: Un'interfaccia user-friendly che consente agli utenti di navigare facilmente tra le informazioni sui corsi, gli eventi e le attività dell'accademia.</li>
-                        <li>Sezione Corsi: Un'area dedicata che offre dettagli sui vari corsi disponibili, inclusi programmi, docenti e modalità di iscrizione.</li>
-                        <li>Blog e News: Uno spazio per condividere notizie, aggiornamenti e articoli sulle arti visive, fornendo agli utenti un motivo per tornare regolarmente al sito.</li>
-                        <li>Portfolio degli Artisti: Una vetrina per i lavori degli studenti e degli insegnanti, che evidenzia i successi e i progetti dell'accademia.</li>
-                        <li>Contatti e Social Media: Informazioni facili da trovare per contattare l'accademia e collegarsi attraverso i social media.</li>
-                    </ul>
-                </p>
-            </div>
-            <!-- Progetto 2 -->
-            <div class="bg-gray-200 p-6 rounded-lg shadow-md hover:scale-105 transition-transform duration-300">
-                <img src="images/pegasus.png" alt="Pegasus Animation" class="w-full h-48 object-cover rounded mb-4 cursor-pointer" onclick="openModal('modal-project2')">
-                <h3 class="text-2xl font-semibold mb-2">Pegasus Animation</h3>
-                <p class="text-lg font-light">
-                    <strong>Introduzione:</strong><br>
-                    Pegasus Animation è un’agenzia di animazione che si dedica a creare esperienze indimenticabili nei villaggi turistici. Nel 2023, ho avuto l'opportunità di far parte del team come DJ in un villaggio a Torrecanneto, contribuendo a rendere le serate più vivaci e coinvolgenti.
-                    <br><br>
-                    <strong>Obiettivi:</strong><br>
-                    Pegasus Animation mira a:
-                    <ul class="list-disc list-inside">
-                        <li>Offrire intrattenimento di alta qualità per gli ospiti del villaggio.</li>
-                        <li>Creare un'atmosfera festosa attraverso eventi musicali e performance dal vivo.</li>
-                        <li>Favorire l'interazione tra gli ospiti e il team di animazione, garantendo un'esperienza memorabile.</li>
-                    </ul>
-                    <br>
-                    <strong>Ruolo:</strong><br>
-                    Come DJ, ho curato la selezione musicale e la gestione degli eventi serali, contribuendo a creare momenti di divertimento e socializzazione tra gli ospiti. Ho lavorato in sinergia con il resto del team di animazione per offrire spettacoli coinvolgenti e dinamici.
-                </p>
-            </div>
-            <!-- Aggiungi altri progetti qui -->
+        <div class="px-8 space-y-8">
+            <!-- Programmazione -->
+            <details class="bg-gray-200 p-6 rounded-lg shadow-md">
+                <summary class="text-3xl font-semibold mb-4 cursor-pointer">Programmazione</summary>
+                <div class="pl-4 space-y-4">
+                    <!-- Back end -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Back end</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Back end 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/backend1.png" alt="Progetto Back end 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-backend1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Progetto Back end 1</h3>
+                                <p class="text-md">Descrizione del Progetto Back end 1.</p>
+                            </div>
+                            <!-- Progetto Back end 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/backend2.png" alt="Progetto Back end 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-backend2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Progetto Back end 2</h3>
+                                <p class="text-md">Descrizione del Progetto Back end 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Back end qui -->
+                        </div>
+                    </details>
+                    <!-- Front end -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Front end</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Front end 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/frontend1.png" alt="Progetto Front end 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-frontend1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Portfolio Personale</h3>
+                                <p class="text-md">"Un portfolio interattivo che raccoglie progetti di programmazione, design grafico, video editing, musica e social media, mostrando competenze tecniche e creative."</p>
+                            </div>
+                            <!-- Progetto Front end 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/frontend2.png" alt="Progetto Front end 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-frontend2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Progetto Front end 2</h3>
+                                <p class="text-md">Descrizione del Progetto Front end 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Front end qui -->
+                        </div>
+                    </details>
+                </div>
+            </details>
+            
+            <!-- Grafico -->
+            <details class="bg-gray-200 p-6 rounded-lg shadow-md">
+                <summary class="text-3xl font-semibold mb-4 cursor-pointer">Grafico</summary>
+                <div class="pl-4 space-y-4">
+                    <!-- Locandine -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Locandine</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Locandina 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/poster1.png" alt="Locandina 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-poster1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Locandina 1</h3>
+                                <p class="text-md">Descrizione della Locandina 1.</p>
+                            </div>
+                            <!-- Progetto Locandina 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/poster2.png" alt="Locandina 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-poster2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Locandina 2</h3>
+                                <p class="text-md">Descrizione della Locandina 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Locandine qui -->
+                        </div>
+                    </details>
+                    <!-- Loghi -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Loghi</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Logo 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/logo1.png" alt="Logo 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-logo1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Logo 1</h3>
+                                <p class="text-md">Descrizione del Logo 1.</p>
+                            </div>
+                            <!-- Progetto Logo 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/logo2.png" alt="Logo 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-logo2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Logo 2</h3>
+                                <p class="text-md">Descrizione del Logo 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Loghi qui -->
+                        </div>
+                    </details>
+                    <!-- Altro -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Altro</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Altro 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/altro1.png" alt="Altro 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-altro1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Altro 1</h3>
+                                <p class="text-md">Descrizione di Altro 1.</p>
+                            </div>
+                            <!-- Progetto Altro 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/altro2.png" alt="Altro 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-altro2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Altro 2</h3>
+                                <p class="text-md">Descrizione di Altro 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Altro qui -->
+                        </div>
+                    </details>
+                </div>
+            </details>
+            
+            <!-- Video/Edit -->
+            <details class="bg-gray-200 p-6 rounded-lg shadow-md">
+                <summary class="text-3xl font-semibold mb-4 cursor-pointer">Video/Edit</summary>
+                <div class="pl-4 space-y-4">
+                    <!-- Videomusic -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">Videomusic</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto Videomusic 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/videomusic1.png" alt="Videomusic 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-videomusic1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Videomusic 1</h3>
+                                <p class="text-md">Descrizione di Videomusic 1.</p>
+                            </div>
+                            <!-- Progetto Videomusic 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/videomusic2.png" alt="Videomusic 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-videomusic2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">Videomusic 2</h3>
+                                <p class="text-md">Descrizione di Videomusic 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti Videomusic qui -->
+                        </div>
+                    </details>
+                    <!-- TikTok/Reel -->
+                    <details class="bg-gray-300 p-4 rounded shadow">
+                        <summary class="text-2xl font-semibold cursor-pointer">TikTok/Reel</summary>
+                        <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                            <!-- Progetto TikTok 1 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/tiktok1.png" alt="TikTok 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-tiktok1')" loading="lazy">
+                                <h3 class="text-xl font-semibold">TikTok 1</h3>
+                                <p class="text-md">Descrizione di TikTok 1.</p>
+                            </div>
+                            <!-- Progetto TikTok 2 -->
+                            <div class="bg-gray-400 p-4 rounded shadow">
+                                <img src="images/tiktok2.png" alt="TikTok 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-tiktok2')" loading="lazy">
+                                <h3 class="text-xl font-semibold">TikTok 2</h3>
+                                <p class="text-md">Descrizione di TikTok 2.</p>
+                            </div>
+                            <!-- Aggiungi altri progetti TikTok/Reel qui -->
+                        </div>
+                    </details>
+                </div>
+            </details>
+            
+            <!-- Musica -->
+            <details class="bg-gray-200 p-6 rounded-lg shadow-md">
+                <summary class="text-3xl font-semibold mb-4 cursor-pointer">Musica</summary>
+                <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <!-- Progetto Musica 1 -->
+                    <div class="bg-gray-300 p-4 rounded shadow">
+                        <img src="images/music1.png" alt="Musica 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-music1')" loading="lazy">
+                        <h3 class="text-xl font-semibold">Musica 1</h3>
+                        <p class="text-md">Descrizione di Musica 1.</p>
+                    </div>
+                    <!-- Progetto Musica 2 -->
+                    <div class="bg-gray-300 p-4 rounded shadow">
+                        <img src="images/music2.png" alt="Musica 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-music2')" loading="lazy">
+                        <h3 class="text-xl font-semibold">Musica 2</h3>
+                        <p class="text-md">Descrizione di Musica 2.</p>
+                    </div>
+                    <!-- Aggiungi altri progetti Musica qui -->
+                </div>
+            </details>
+            
+            <!-- Social media manager -->
+            <details class="bg-gray-200 p-6 rounded-lg shadow-md">
+                <summary class="text-3xl font-semibold mb-4 cursor-pointer">Social media manager</summary>
+                <div class="pl-4 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                    <!-- Progetto SMM 1 -->
+                    <div class="bg-gray-300 p-4 rounded shadow">
+                        <img src="images/smm1.png" alt="Social Media Project 1" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-smm1')" loading="lazy">
+                        <h3 class="text-xl font-semibold">Social Media Project 1</h3>
+                        <p class="text-md">Descrizione di Social Media Project 1.</p>
+                    </div>
+                    <!-- Progetto SMM 2 -->
+                    <div class="bg-gray-300 p-4 rounded shadow">
+                        <img src="images/smm2.png" alt="Social Media Project 2" class="w-full h-32 object-cover rounded mb-2 cursor-pointer" onclick="openModal('modal-smm2')" loading="lazy">
+                        <h3 class="text-xl font-semibold">Social Media Project 2</h3>
+                        <p class="text-md">Descrizione di Social Media Project 2.</p>
+                    </div>
+                    <!-- Aggiungi altri progetti Social media manager qui -->
+                </div>
+            </details>
+        </div>
+    </section>
+  
+    <!-- Sezione Info -->
+    <section id="info" class="py-16 bg-gray-100 text-center">
+        <h2 class="text-4xl font-semibold mb-8 tracking-wide">Info</h2>
+        <p class="mb-8 text-lg font-light">Per qualsiasi informazione, puoi contattarmi su:</p>
+
+        <!-- Contenitore per le Immagini Social -->
+        <div class="flex justify-center space-x-6 mb-8">
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/linkedin.png" alt="LinkedIn" class="w-12 h-12 object-contain">
+            </a>
+            <!-- GitHub -->
+            <a href="https://github.com/tuo-username" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/github.png" alt="GitHub" class="w-12 h-12 object-contain">
+            </a>
+            <!-- Twitter -->
+            <a href="https://twitter.com/tuo-username" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/x.png" alt="Twitter" class="w-12 h-12 object-contain">
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/instagram.jpg" alt="Instagram" class="w-12 h-12 object-contain">
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/yt.jpg" alt="YouTube" class="w-12 h-12 object-contain">
+            </a>
+            <!-- TikTok -->
+            <a href="https://www.tiktok.com/@ilditonellocchioacademy" target="_blank" class="transition transform hover:scale-110">
+                <img src="images/tiktok.png" alt="TikTok" class="w-12 h-12 object-contain">
+            </a>
         </div>
     </section>
 
-  
-    <!-- Sezione Info -->
-<section id="info" class="py-16 bg-gray-100 text-center">
-    <h2 class="text-4xl font-semibold mb-8 tracking-wide">Info</h2>
-    <p class="mb-8 text-lg font-light">Per qualsiasi informazione, puoi contattarmi su:</p>
-
-    <!-- Contenitore per le Immagini Social -->
-    <div class="flex justify-center space-x-6 mb-8">
-        <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/linkedin.png" alt="LinkedIn" class="w-12 h-12 object-contain">
-        </a>
-        <!-- GitHub -->
-        <a href="https://github.com/tuo-username" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/github.png" alt="GitHub" class="w-12 h-12 object-contain">
-        </a>
-        <!-- Twitter -->
-        <a href="https://twitter.com/tuo-username" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/x.png" alt="Twitter" class="w-12 h-12 object-contain">
-        </a>
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/instagram.jpg" alt="Instagram" class="w-12 h-12 object-contain">
-        </a>
-        <!-- YouTube -->
-        <a href="https://www.youtube.com/tuo-profilo" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/yt.jpg" alt="YouTube" class="w-12 h-12 object-contain">
-        </a>
-        <!-- TikTok -->
-        <a href="https://www.tiktok.com/@ilditonellocchioacademy" target="_blank" class="transition transform hover:scale-110">
-            <img src="images/tiktok.png" alt="TikTokages" class="w-12 h-12 object-contain">
-        </a>
-    </div>
-</section>
-
     <!-- Sezione Contattami -->
-<section id="contact" class="py-16 bg-white text-center">
-    <div class="max-w-2xl mx-auto bg-gradient-to-r from-indigo-50 to-purple-100 p-8 rounded-3xl shadow-2xl" data-aos="fade-up">
-        <h2 class="text-4xl font-semibold mb-6 text-gray-800 tracking-wide">Contattami</h2>
-        <form action="mailto:ciro@example.com" method="post" enctype="text/plain" class="space-y-6">
-            <!-- Nome e Cognome in una riga -->
-            <div class="flex flex-col md:flex-row md:space-x-4">
-                <div class="flex-1">
-                    <label for="name" class="block text-left mb-2 text-gray-700">Nome:</label>
-                    <input type="text" id="name" name="name" required 
+    <section id="contact" class="py-16 bg-white text-center">
+        <div class="max-w-2xl mx-auto bg-gradient-to-r from-indigo-50 to-purple-100 p-8 rounded-3xl shadow-2xl" data-aos="fade-up">
+            <h2 class="text-4xl font-semibold mb-6 text-gray-800 tracking-wide">Contattami</h2>
+            <form action="mailto:ciro@example.com" method="post" enctype="text/plain" class="space-y-6">
+                <!-- Nome e Cognome in una riga -->
+                <div class="flex flex-col md:flex-row md:space-x-4">
+                    <div class="flex-1">
+                        <label for="name" class="block text-left mb-2 text-gray-700">Nome:</label>
+                        <input type="text" id="name" name="name" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
+                            placeholder-gray-400">
+                    </div>
+                    <div class="flex-1 mt-4 md:mt-0">
+                        <label for="cognome" class="block text-left mb-2 text-gray-700">Cognome:</label>
+                        <input type="text" id="cognome" name="cognome" required 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
+                            placeholder-gray-400">
+                    </div>
+                </div>
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-left mb-2 text-gray-700">Email:</label>
+                    <input type="email" id="email" name="email" required 
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
                         placeholder-gray-400">
                 </div>
-                <div class="flex-1 mt-4 md:mt-0">
-                    <label for="cognome" class="block text-left mb-2 text-gray-700">Cognome:</label>
-                    <input type="text" id="cognome" name="cognome" required 
+                <!-- Messaggio -->
+                <div>
+                    <label for="message" class="block text-left mb-2 text-gray-700">Messaggio:</label>
+                    <textarea id="message" name="message" rows="5" required 
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
-                        placeholder-gray-400">
+                        placeholder-gray-400"></textarea>
                 </div>
-            </div>
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-left mb-2 text-gray-700">Email:</label>
-                <input type="email" id="email" name="email" required 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
-                    placeholder-gray-400">
-            </div>
-            <!-- Messaggio -->
-            <div>
-                <label for="message" class="block text-left mb-2 text-gray-700">Messaggio:</label>
-                <textarea id="message" name="message" rows="5" required 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow hover:shadow-lg 
-                    placeholder-gray-400"></textarea>
-            </div>
-            <!-- Pulsante Invia -->
-            <button type="submit" 
-                class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-transform transform hover:-translate-y-1 
-                shadow-md">
-                Invia
-            </button>
-        </form>
-    </div>
-</section>
+                <!-- Pulsante Invia -->
+                <button type="submit" 
+                    class="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition-transform transform hover:-translate-y-1 
+                    shadow-md">
+                    Invia
+                </button>
+            </form>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-6">
@@ -456,12 +613,12 @@
     </footer>
 
     <!-- Back-to-Top Button -->
-    <div id="back-to-top" class="fixed bottom-80 right-20 bg-gray-700 text-white p-3 rounded-full cursor-pointer hover:bg-gray-800 transition-colors" aria-label="Back to Top">
+    <div id="back-to-top" class="fixed bottom-80 right-20 bg-gray-700 text-white p-3 rounded-full cursor-pointer hover:bg-gray-800 transition-colors" aria-label="Back to Top" tabindex="0">
         <i class="fas fa-chevron-up text-xl"></i>
     </div>
 
 
-    <!-- JavaScript per gestire il menu, il toggle dark mode, il back-to-top, i modali e il loading spinner -->
+    <!-- JavaScript Ottimizzato e Integrato -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const hamburger = document.getElementById('hamburger');
@@ -474,98 +631,117 @@
             const modals = document.querySelectorAll('.modal');
             const closeModalButtons = document.querySelectorAll('.close-modal');
 
+            if (!hamburger || !navLinks) {
+                console.warn('Hamburger o NavLinks non trovati nel DOM.');
+                return;
+            }
+
             // Funzione per attivare/disattivare il menu mobile
-            const toggleMenu = () => {
+            const toggleMenu = (event) => {
+                if (event) event.stopPropagation();
                 navLinks.classList.toggle('translate-x-full');
                 hamburger.classList.toggle('toggle');
-                // Mostra o nascondi la freccia di ritorno in base allo stato del menu
-                backArrow.style.display = navLinks.classList.contains('translate-x-full') ? 'none' : 'block';
+
+                // Aggiorna l'attributo aria per l'accessibilità
+                const isActive = !navLinks.classList.contains('translate-x-full');
+                hamburger.setAttribute('aria-expanded', isActive);
             };
 
             // Event listener per l'hamburger
             hamburger.addEventListener('click', toggleMenu);
 
-            // Event listener per la freccia indietro
-            backArrow.addEventListener('click', toggleMenu);
-
-            // Funzione per animare l'icona hamburger
-            const animateHamburger = () => {
-                const line1 = hamburger.querySelector('.line1');
-                const line2 = hamburger.querySelector('.line2');
-                const line3 = hamburger.querySelector('.line3');
-
-                line1.classList.toggle('rotate-45');
-                line1.classList.toggle('origin-top-left');
-
-                line2.classList.toggle('opacity-0');
-
-                line3.classList.toggle('-rotate-45');
-                line3.classList.toggle('origin-bottom-left');
-            };
-
-            // Event listener per animare l'hamburger
-            hamburger.addEventListener('click', animateHamburger);
-
-            // Funzione per chiudere il menu mobile quando si clicca su un link
-            const navItems = document.querySelectorAll('#nav-links a');
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
+            // Gestione dell'event delegation per i link di navigazione
+            navLinks.addEventListener('click', (event) => {
+                if (event.target.tagName === 'A') {
                     navLinks.classList.add('translate-x-full');
                     hamburger.classList.remove('toggle');
-                    backArrow.style.display = 'none';
-
-                    const line1 = hamburger.querySelector('.line1');
-                    const line2 = hamburger.querySelector('.line2');
-                    const line3 = hamburger.querySelector('.line3');
-
-                    line1.classList.remove('rotate-45');
-                    line1.classList.remove('origin-top-left');
-
-                    line2.classList.remove('opacity-0');
-
-                    line3.classList.remove('-rotate-45');
-                    line3.classList.remove('origin-bottom-left');
-                });
-            });
-
-            // Funzione per mostrare/nascondere il pulsante back-to-top
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 300) {
-                    backToTop.classList.remove('hidden');
-                    backToTop.classList.add('block');
-                } else {
-                    backToTop.classList.remove('block');
-                    backToTop.classList.add('hidden');
+                    hamburger.setAttribute('aria-expanded', 'false');
                 }
             });
+
+            // Event listener per la freccia indietro
+            if (backArrow) {
+                backArrow.addEventListener('click', toggleMenu);
+            }
+
+            // Gestione della chiusura del menu cliccando all'esterno
+            document.addEventListener('click', (event) => {
+                if (!navLinks.contains(event.target) && !hamburger.contains(event.target)) {
+                    if (!navLinks.classList.contains('translate-x-full')) {
+                        navLinks.classList.add('translate-x-full');
+                        hamburger.classList.remove('toggle');
+                        hamburger.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+
+            // Gestione della tastiera per l'hamburger
+            const handleKeyPress = (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleMenu(event);
+                }
+            };
+            hamburger.addEventListener('keydown', handleKeyPress);
 
             // Funzione per scrollare in cima quando si clicca sul pulsante back-to-top
-            backToTop.addEventListener('click', () => {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
+            if (backToTop) {
+                backToTop.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
-            });
+
+                // Mostra/nascondi il pulsante back-to-top
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTop.classList.remove('hidden');
+                        backToTop.classList.add('block');
+                    } else {
+                        backToTop.classList.remove('block');
+                        backToTop.classList.add('hidden');
+                    }
+                });
+            }
 
             // Funzione per attivare/disattivare la modalità scura
-            darkModeToggle.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                // Cambia l'icona a seconda del tema
-                if (document.documentElement.classList.contains('dark')) {
-                    themeIcon.classList.remove('fa-moon');
-                    themeIcon.classList.add('fa-sun');
-                } else {
-                    themeIcon.classList.remove('fa-sun');
-                    themeIcon.classList.add('fa-moon');
-                }
-            });
+            if (darkModeToggle && themeIcon) {
+                darkModeToggle.addEventListener('click', () => {
+                    document.documentElement.classList.toggle('dark');
+                    // Cambia l'icona a seconda del tema
+                    if (document.documentElement.classList.contains('dark')) {
+                        themeIcon.classList.remove('fa-moon');
+                        themeIcon.classList.add('fa-sun');
+                    } else {
+                        themeIcon.classList.remove('fa-sun');
+                        themeIcon.classList.add('fa-moon');
+                    }
+                });
+
+                // Abilita il toggle tramite tastiera
+                darkModeToggle.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        darkModeToggle.click();
+                    }
+                });
+            }
 
             // Funzione per aprire il modal
             window.openModal = function(modalId) {
                 const modal = document.getElementById(modalId);
                 if (modal) {
                     modal.style.display = 'flex';
-                    gsap.from(modal.querySelector('.modal-content'), { opacity: 0, scale: 0.8, duration: 0.3, ease: "power3.out" });
+                    gsap.from(modal.querySelector('.modal-content'), { 
+                        opacity: 0, 
+                        scale: 0.8, 
+                        duration: 0.5, 
+                        ease: "power3.out" 
+                    });
+                    // Imposta il focus all'interno del modale
+                    const focusableElements = modal.querySelectorAll('a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])');
+                    if (focusableElements.length) focusableElements[0].focus();
                 }
             };
 
@@ -573,10 +749,24 @@
             closeModalButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     modals.forEach(modal => {
-                        gsap.to(modal.querySelector('.modal-content'), { opacity: 0, scale: 0.8, duration: 0.3, ease: "power3.in", onComplete: () => {
-                            modal.style.display = 'none';
-                        } });
+                        gsap.to(modal.querySelector('.modal-content'), { 
+                            opacity: 0, 
+                            scale: 0.8, 
+                            duration: 0.3, 
+                            ease: "power3.in", 
+                            onComplete: () => {
+                                modal.style.display = 'none';
+                            } 
+                        });
                     });
+                });
+
+                // Abilita la chiusura tramite tastiera
+                button.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        button.click();
+                    }
                 });
             });
 
@@ -584,53 +774,103 @@
             window.addEventListener('click', (event) => {
                 modals.forEach(modal => {
                     if (event.target === modal) {
-                        gsap.to(modal.querySelector('.modal-content'), { opacity: 0, scale: 0.8, duration: 0.3, ease: "power3.in", onComplete: () => {
-                            modal.style.display = 'none';
-                        } });
+                        gsap.to(modal.querySelector('.modal-content'), { 
+                            opacity: 0, 
+                            scale: 0.8, 
+                            duration: 0.3, 
+                            ease: "power3.in", 
+                            onComplete: () => {
+                                modal.style.display = 'none';
+                            } 
+                        });
                     }
                 });
             });
 
             // Gestione del caricamento della pagina (nasconde il loading spinner)
-            window.addEventListener('load', () => {
-                gsap.to("#loading", { opacity: 0, duration: 0.5, onComplete: () => {
-                    loading.classList.add('hidden');
-                } });
+            if (loading) {
+                window.addEventListener('load', () => {
+                    gsap.to("#loading", { 
+                        opacity: 0, 
+                        duration: 0.5, 
+                        onComplete: () => {
+                            loading.classList.add('hidden');
+                        } 
+                    });
 
-                // Animazioni con GSAP per le sezioni
-                gsap.registerPlugin(ScrollTrigger);
+                    // Animazioni con GSAP per le sezioni
+                    gsap.registerPlugin(ScrollTrigger);
 
-                // Animazione di entrata per la sezione Home
-                gsap.from("#home h1", { 
-                    duration: 1, 
-                    y: -50, 
-                    opacity: 0, 
-                    ease: "power3.out",
-                    delay: 0.5
-                });
-                gsap.from("#home p", { 
-                    duration: 1, 
-                    y: 50, 
-                    opacity: 0, 
-                    ease: "power3.out",
-                    delay: 1 
-                });
-
-                // Animazioni per le altre sezioni
-                gsap.utils.toArray('section').forEach((section) => {
-                    gsap.from(section, {
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 80%",
-                        },
-                        opacity: 0,
-                        y: 50,
-                        duration: 1,
+                    // Animazione di entrata per la sezione Home
+                    gsap.from("#home h1", { 
+                        duration: 1, 
+                        y: -50, 
+                        opacity: 0, 
                         ease: "power3.out",
-                        stagger: 0.2
+                        delay: 0.5
+                    });
+                    gsap.from("#home p", { 
+                        duration: 1, 
+                        y: 50, 
+                        opacity: 0, 
+                        ease: "power3.out",
+                        delay: 1 
+                    });
+
+                    // Animazioni per le altre sezioni
+                    gsap.utils.toArray('section').forEach((section) => {
+                        gsap.from(section, {
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 80%",
+                            },
+                            opacity: 0,
+                            y: 50,
+                            duration: window.innerWidth < 768 ? 0.5 : 1,
+                            ease: "power3.out",
+                            stagger: 0.2
+                        });
                     });
                 });
+            }
+
+            // Implementazione delle Swipe Gestures con Hammer.js
+            const hammer = new Hammer(document.body);
+
+            // Swipe da sinistra per aprire il menu
+            hammer.on('swiperight', () => {
+                if (navLinks.classList.contains('translate-x-full')) {
+                    toggleMenu(new Event('click'));
+                }
             });
+
+            // Swipe da destra per chiudere il menu
+            hammer.on('swipeleft', () => {
+                if (!navLinks.classList.contains('translate-x-full')) {
+                    toggleMenu(new Event('click'));
+                }
+            });
+
+            // Lazy Loading delle immagini tramite Intersection Observer
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+            if ('IntersectionObserver' in window) {
+                const imageObserver = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.src; // L'attributo src è già impostato
+                            observer.unobserve(img);
+                        }
+                    });
+                }, {
+                    rootMargin: "0px 0px 50px 0px",
+                    threshold: 0.01
+                });
+
+                lazyImages.forEach(img => {
+                    imageObserver.observe(img);
+                });
+            }
         });
     </script>
 </body>
